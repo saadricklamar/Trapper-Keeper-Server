@@ -1,0 +1,35 @@
+{
+  "name": "Trapper-Keeper-Server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.0",
+    "jest": "^24.8.0",
+    "nodemon": "^1.19.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/node": "^7.4.5",
+    "@babel/polyfill": "^7.4.4",
+    "@babel/preset-env": "^7.4.5",
+    "babel-jest": "^24.8.0",
+    "supertest": "^4.0.2"
+  },
+  "scripts": {
+    "start": "nodemon --exec babel-node server.js",
+    "test": "jest --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kalex19/Trapper-Keeper-Server.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kalex19/Trapper-Keeper-Server/issues"
+  },
+  "homepage": "https://github.com/kalex19/Trapper-Keeper-Server#readme"
+}
