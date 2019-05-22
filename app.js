@@ -1,5 +1,7 @@
-import express from 'express';
-import cors from 'cors';
+// import express from 'express';
+const express = require('express');
+// import cors from 'cors';
+const cors = require('cors');
 
 const app = express();
 
@@ -26,4 +28,4 @@ app.post('/api/v1/notes', (req, res) => {
   res.status(201).json(newNote);
 })
 
-export default app;
+module.exports = app;
