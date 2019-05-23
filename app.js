@@ -1,7 +1,6 @@
-// import express from 'express';
-const express = require('express');
-// import cors from 'cors';
-const cors = require('cors');
+import express from 'express';
+import cors from 'cors';
+
 
 const app = express();
 
@@ -56,5 +55,4 @@ app.delete('/api/v1/notes/:id', (req, res) => {
   res.status(204);
 })
 
-
-module.exports = app;
+export default app;

@@ -1,8 +1,7 @@
-// import request from 'supertest';
-const request = require('supertest');
-// import '@babel/polyfill';
-// import app from './app';
-const app = require('./app')
+import request from 'supertest';
+import '@babel/polyfill';
+import app from './app';
+
 
 describe('API', () => {
 

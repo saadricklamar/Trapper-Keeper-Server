@@ -1,5 +1,5 @@
-// import app from './app';
-const app = require('./app');
+import app from './app';
+
 
 app.set('port', 3001);
 
