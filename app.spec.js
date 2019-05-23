@@ -11,9 +11,9 @@ describe('API', () => {
             ];
     app.locals.notes = notes;
   });
-  describe('GET /api/v1/notes', async () => {
+  describe('GET /api/v1/notes', () => {
     it('should return a status of 200', () => {
-      const response = await request(app).get('/api/v1/notes');
+      const response = request(app).get('/api/v1/notes');
       expect(response.statusCode).toBe(200);
     });
     it('should return an array of notes', async () => {
@@ -21,7 +21,7 @@ describe('API', () => {
       expect(response.body).toEqual(notes);
     });
   });
-  describe('GET /api/v1/notes/:id', async () => {
+  describe('GET /api/v1/notes/:id', () => {
     it('should return a status of 404', async () => {
       const response = await request(app).get('/api/v1/notes/1000');
       expect(response.statusCode).toBe(404);
@@ -40,7 +40,7 @@ describe('API', () => {
     });
   })
 
-  describe('POST /api/v1/notes/:id', async () => {
+  describe('POST /api/v1/notes/:id', () => {
     it('should return a status of 422', async () => {
       let badNote = {list: 'groceries'}
       const response = await request(app).post('/api/v1/notes/1')
@@ -68,4 +68,12 @@ describe('API', () => {
       expect(app.locals.notes).toEqual([...notes, goodNote])
     });
   });
+  describe('PUT /api/v1/notes/', () => {
+    it('should return a status of 422', async () => {
+      let badNote = {list: 'groceries'}
+      const response = await request(app.put('/api/v1/notes')).send(badNote);
+      expect(response.statusCode).toBe(422);
+      expect(response.body).toEqual('Please provide a title and task');
+    })
+  })
 });
