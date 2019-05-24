@@ -4,11 +4,11 @@ import cors from 'cors';
 const app = express();
 
 app.use(cors());
-
 app.use(express.json());
 
 app.locals.notes = [
-  {title: 'test', task: [{name: 'task', id: 1, complete: false}], id: 2}
+  { id: 1, title: 'test', task: [{name: 'task', id: 1, complete: false}]},
+  { id: 2, title: 'test', task: [{name: 'task', id: 2, complete: false}]}
 ];
 
 app.get('/api/v1/notes', (req, res) => {
@@ -16,14 +16,14 @@ app.get('/api/v1/notes', (req, res) => {
 });
 
 app.get('/api/v1/notes/:id', (req, res) => {
-  const { id } = req.params;
-  const note = app.locals.notes.find(id => note.id === id);
-  if (!note) res.status(404).json('Note not found');
-  res.status(200).json(note);
-})
+  const { id } = req.params
+  const note = app.locals.notes.find(note => note.id == id);
+  if (!note) return res.status(404).json('Note not found');
+  return res.status(200).json(note);
+});
 
 app.post('/api/v1/notes', (req, res) => {
-  const { title, task, id } = req.body;
+  const { title, task } = req.body;
   if (!title || !task) return res.status(422).json('Please provide a title and task');
   const newNote = {
     id: Date.now(),
@@ -36,6 +36,7 @@ app.post('/api/v1/notes', (req, res) => {
 app.put('/api/v1/notes/:id', (req, res) => {
   const { id } = req.params;
   const { title, task } = req.body;
+  id = parseInt(id)
   if(!title || !task) res.status(422).json('Please provide a title and task');
   const note = {
     id: Date.now(),
