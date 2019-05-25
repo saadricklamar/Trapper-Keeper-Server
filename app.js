@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import { nodeInternals } from 'stack-utils';
 
 const app = express();
 
@@ -34,25 +35,23 @@ app.post('/api/v1/notes', (req, res) => {
 })
 
 app.put('/api/v1/notes/:id', (req, res) => {
-  const { id } = req.params;
+  const id = parseInt(req.params.id);
   const { title, task } = req.body;
-  id = parseInt(id)
-  if(!title || !task) res.status(422).json('Please provide a title and task');
-  const note = {
-    id: Date.now(),
-    title,
-    task
-  };
-  app.locals.notes.push(note);
-  res.status(201).json(note);
-})
+  if(!title || !task) return res.status(422).json('Please provide a title and task');
+  const noteIndex = app.locals.notes.findIndex(note => note.id === id);
+  if (noteIndex === -1) return res.status(404).json('Note not found');
+  const updatedCard = { id, title, task}
+  app.locals.notes.splice(noteIndex, 1, updatedCard);
+  return res.sendStatus(204);
+});
+
 
 app.delete('/api/v1/notes/:id', (req, res) => {
-  const { id } = req.params;
-  const note = app.locals.findIndex(note => note.id == id);
-  if(!note) res.status(404).json('Note does not exist');
-  app.locals.notes.splice(note, 1);
-  res.status(204);
+  const id = parseInt(req.params.id)
+  const noteIndex = app.locals.notes.findIndex(note => note.id === id);
+  if(noteIndex === -1) return res.status(404).json('Note does not exist');
+  app.locals.notes.splice(noteIndex, 1);
+  return res.sendStatus(204);
 })
 
 export default app;
