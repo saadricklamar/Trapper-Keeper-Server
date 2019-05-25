@@ -70,12 +70,30 @@ describe('API', () => {
       expect(app.locals.notes.length).toEqual(3)
     });
   });
-  // describe('PUT /api/v1/notes', () => {
-  //   it('should return a status of 422', async () => {
-  //     let badNote = {list: 'groceries'}
-  //     const response = await request(app).put('/api/v1/notes').send(badNote);
-  //     expect(response.status).toBe(422);
-  //     expect(response.body).toEqual('Please provide a title and task');
-  //   })
-  // })
+  describe('PUT /api/v1/notes/:id', () => {
+    it('should return a status of 204 if card succesfully updated', async () => {
+      const newNoteInfo = { title: 'fishing list', task: [{name: 'get bread', id: 1, complete: false }]};
+      const response = await request(app).put('/api/v1/notes/1').send(newNoteInfo);
+      expect(response.status).toBe(204);
+    })
+    it('should update update the note if successful', async () => {
+      const newNoteInfo = { title: 'fishing list', task: [{name: 'get bread', id: 1, complete: false }]}
+      const expected = [{id: 1, ...newNoteInfo}, notes[1]];
+      expect(app.locals.notes).toEqual(notes);
+      const response = await request(app).put('/api/v1/notes/1').send(newNoteInfo);
+      expect(app.locals.notes).toEqual(expected);
+    })
+    it('should return a status of 422 and error message if there is no title', async () => {
+      const titleLessNote = { title: '', task: [{name: 'get bread', id: 1, complete: false }]}
+      const response = await request(app).put('/api/v1/notes/1').send(titleLessNote);
+      expect(response.status).toBe(422);
+      expect(response.body).toBe('Please provide a title and task');
+    })
+    it('should return a status of 422 and error message if there are no tasks', async () => {
+      const taskLessNote = { title: 'shopping list', task: '' }
+      const response = await request(app).put('/api/v1/notes/1').send(taskLessNote);
+      expect(response.status).toBe(422);
+      expect(response.body).toBe('Please provide a title and task');
+    })
+  })
 });
