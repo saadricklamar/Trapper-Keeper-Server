@@ -6,8 +6,8 @@ import app from './app';
 describe('API', () => {
   let notes;
   beforeEach(() => {
-    notes = [{ id: 1, title: 'grocery list', task: [{name: 'task', id: 1, complete: false}]}, 
-             { id: 2, title: 'shopping list', task: [{name: 'task', id: 1, complete: false}]}
+    notes = [{ id: 1, title: 'grocery list', task: [{task: 'task', id: 1, complete: false}]}, 
+             { id: 2, title: 'shopping list', task: [{task: 'task', id: 1, complete: false}]}
             ];
     app.locals.notes = notes;
   });
@@ -55,12 +55,12 @@ describe('API', () => {
       expect(app.locals.notes.length).toBe(2);
     });
     it('should return a status of 201', async () => {
-      const goodNote = {title: 'laundry', task: 'Go to dry cleaners'};
+      const goodNote = {title: 'laundry', tasks: [{task: 'task', id: 1, complete: false}]};
       const response = await request(app).post('/api/v1/notes').send(goodNote);
       expect(response.status).toBe(201);
     });
     it('should return a new note if ok', async () => {
-      const goodNote = {title: 'laundry', task: [{name: 'task', id: 1, complete: false}]};
+      const goodNote = {title: 'laundry', tasks: [{task: 'task', id: 1, complete: false}]};
       Date.now = jest.fn().mockImplementation(() => 3)
       expect(app.locals.notes.length).toEqual(2)
 
@@ -71,12 +71,12 @@ describe('API', () => {
   });
   describe('PUT /api/v1/notes/:id', () => {
     it('should return a status of 204 if card succesfully updated', async () => {
-      const newNoteInfo = { title: 'fishing list', task: [{name: 'get bread', id: 1, complete: false }]};
+      const newNoteInfo = { title: 'fishing list', task: [{task: 'get bread', id: 1, complete: false }]};
       const response = await request(app).put('/api/v1/notes/1').send(newNoteInfo);
       expect(response.status).toBe(204);
     });
     it('should update update the note if successful', async () => {
-      const newNoteInfo = { title: 'fishing list', task: [{name: 'get bread', id: 1, complete: false }]}
+      const newNoteInfo = { title: 'fishing list', task: [{task: 'get bread', id: 1, complete: false }]}
       const expected = [{id: 1, ...newNoteInfo}, notes[1]];
       expect(app.locals.notes).toEqual(notes);
       const response = await request(app).put('/api/v1/notes/1').send(newNoteInfo);
