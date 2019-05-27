@@ -24,8 +24,8 @@ app.get('/api/v1/notes/:id', (req, res) => {
 });
 
 app.post('/api/v1/notes', (req, res) => {
-  const { title, task } = req.body;
-  if (!title || !task) return res.status(422).json('Please provide a title and task');
+  const { title, tasks } = req.body;
+  if (!title || !tasks) return res.status(422).json('Please provide a title and task');
   const newNote = {
     id: Date.now(),
     ...req.body
