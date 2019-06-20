@@ -72,12 +72,14 @@ app.put("/api/v1/notes/:id", (req, res) => {
   return res.sendStatus(204);
 });
 
+
 // this is a function that allows us to delete a specific note
 // we assign id to the req.params.id
 // we once again find the note 
 // if note is not found, then we send an error message of note not found
 // if note is found, then we splice (remove) that specific note from app.locals.notes
 // and send a response status of 204 meaning the server has succesfully fulfilled the request
+
 
 app.delete("/api/v1/notes/:id", (req, res) => {
   const id = parseInt(req.params.id);
